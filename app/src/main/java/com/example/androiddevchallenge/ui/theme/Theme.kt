@@ -15,45 +15,75 @@
  */
 package com.example.androiddevchallenge.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = purple200,
-    primaryVariant = purple700,
-    secondary = teal200
+private val LightColorPalette = MyColors(
+    background = white,
+    textPrimary = black,
+    textSecondary = Color.DarkGray,
+    progress = yellow,
+    progressSecondary = darkBlack,
 )
 
-private val LightColorPalette = lightColors(
-    primary = purple500,
-    primaryVariant = purple700,
-    secondary = teal200
-
-        /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+private val DarkColorPalette = MyColors(
+    background = black,
+    textPrimary = white,
+    textSecondary = Color.LightGray,
+    progress = yellow,
+    progressSecondary = darkBlack,
 )
+
+private val LocalColorsProvider = compositionLocalOf {
+    LightColorPalette
+}
+
+@Stable
+object MyTheme {
+    val colors: MyColors
+        @Composable
+        get() = LocalColorsProvider.current
+}
 
 @Composable
-fun MyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun MyTheme(darkTheme: Boolean = true, content: @Composable() () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
     }
+    CompositionLocalProvider(LocalColorsProvider provides colors) {
+        MaterialTheme(
+            typography = typography,
+            shapes = shapes,
+            content = content,
+        )
+    }
+}
 
-    MaterialTheme(
-        colors = colors,
-        typography = typography,
-        shapes = shapes,
-        content = content
-    )
+@Stable
+class MyColors(
+    background: Color,
+    progress: Color,
+    progressSecondary: Color,
+    textPrimary: Color,
+    textSecondary: Color,
+) {
+    var progress: Color by mutableStateOf(progress)
+        private set
+    var progressSecondary: Color by mutableStateOf(progressSecondary)
+        private set
+    var background: Color by mutableStateOf(background)
+        private set
+    var textPrimary: Color by mutableStateOf(textPrimary)
+        private set
+    var textSecondary: Color by mutableStateOf(textSecondary)
+        private set
 }

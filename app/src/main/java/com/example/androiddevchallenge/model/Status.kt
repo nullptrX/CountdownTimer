@@ -13,20 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.model
 
-import androidx.compose.ui.graphics.Color
-
-val purple200 = Color(0xFFBB86FC)
-val purple500 = Color(0xFF6200EE)
-val purple700 = Color(0xFF3700B3)
-val teal200 = Color(0xFF03DAC5)
-val white = Color(0xFFFFFFFF)
-val lightWhite = Color(0xFF777777)
-val black = Color(0xFF000000)
-val darkBlack = Color(0xAA272727)
-val yellow = Color(0xFFF1A23C)
-val darkYellow = Color(0xFF312106)
-val darkCancel = Color(0xFF1C1C1D)
-val green = Color(0xFF64C563)
-val darkGreen = Color(0xFF132914)
+enum class Status {
+    Idle,
+    Running,
+    Pausing,
+    Stop,
+}
